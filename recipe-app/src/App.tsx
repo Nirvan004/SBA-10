@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { FavoritesProvider } from "./context/FavoritesContext";
 
-function App() {
-  const [count, setCount] = useState(0)
+import NavBar from "./components/Navbar.tsx";
+import Home from "./pages/Home";
+import Category from "./pages/Category";
+import RecipeDetail from "./pages/RecipeDetail";
+import SearchResults from "./pages/SearchResults";
+import Favorites from "./pages/Favorites";
 
+import "./App.css";
+const App: React.FC = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <FavoritesProvider>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/category/:categoryName" element={<Category />} />
+          <Route path="/recipe/:recipeId" element={<RecipeDetail />} />
+          <Route path="/search" element={<SearchResults />} />
+          <Route path="/favorites" element={<Favorites />} />
+          {/* Optional: 404 Not Found Route */}
+          <Route
+            path="*"
+            element={
+              <div style={{ padding: "2rem", textAlign: "center" }}>
+                <h2>Page Not Found</h2>
+              </div>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </FavoritesProvider>
+  );
+};
 
-export default App
+export default App;
