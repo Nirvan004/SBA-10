@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
 import type { MealDetail } from "../types/recipe";
 import Spinner from "../components/Spinner";
@@ -12,6 +12,7 @@ interface RecipeResponse {
 
 const RecipeDetail: React.FC = () => {
   const { recipeId } = useParams<{ recipeId: string }>();
+  const navigate = useNavigate();
   const { data, loading, error } = useFetch<RecipeResponse>(
     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`
   );
@@ -43,6 +44,20 @@ const RecipeDetail: React.FC = () => {
 
   return (
     <div style={{ padding: "2rem", maxWidth: "800px", margin: "auto" }}>
+        <button
+        onClick={() => navigate(-1)}
+        style={{
+          marginBottom: "1rem",
+          padding: "0.5rem 1rem",
+          borderRadius: "4px",
+          border: "none",
+          background: "#4f46e5",
+          color: "white",
+          cursor: "pointer",
+        }}
+      >
+        ← Back
+      </button>
       <h1 style={{ textAlign: "center", marginBottom: "1rem" }}>
         {recipe.strMeal}
       </h1>
